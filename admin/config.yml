@@ -1,0 +1,67 @@
+backend:
+  name: github
+  repo: one9x/blog
+  branch: main
+  base_url: https://one9x-github-auth.azurewebsites.net
+
+publish_mode: editorial_workflow
+media_folder: "images/uploads"
+public_folder: "/images/uploads" # The src attribute for uploaded media will begin with /images/uploads
+
+collections:
+  - name: "blog" # Used in routes, e.g., /admin/collections/blog
+    label: "Blog" # Used in the UI
+    folder: "_posts" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    fields: # The fields for each document, usually in front matter
+      - { label: "Layout", name: "layout", widget: "hidden", default: "post" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - {
+          label: "Featured Image",
+          name: "thumbnail",
+          widget: "image",
+          required: false,
+        }
+      - {
+          label: "Author",
+          name: "author",
+          widget: "relation",
+          collection: "authors",
+          display_fields: [display_name],
+          search_fields:
+            [
+              display_name,
+              github_username,
+              twitter_username,
+              linkedin_username,
+            ],
+          value_field: "name",
+        }
+      - { label: "Category", name: "categories", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "authors"
+    label: "Authors"
+    folder: "_authors/"
+    create: true
+    editor:
+      preview: false
+    fields:
+      - { label: "Layout", name: "layout", widget: "hidden", default: "author" }
+      - { label: "Short Name", name: "name", widget: "string" }
+      - { label: "Display Name", name: "display_name", widget: "string" }
+      - { label: "profile_pic", name: "profile_pic", widget: "image" }
+      - { label: "Github Username", name: "github_username", widget: "string" }
+      - {
+          label: "Twitter Username",
+          name: "twitter_username",
+          widget: "string",
+        }
+      - {
+          label: "LinkedIn Username",
+          name: "linkedin_username",
+          widget: "string",
+        }
+      - { label: "Bio", name: "bio", widget: "markdown" }
