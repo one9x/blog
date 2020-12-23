@@ -37,6 +37,6 @@ So if we have all these implemented in our society, just imagine how peaceful an
 
 Well this doesn’t mean it doesn’t have any limitation, it has. Just like any democratic society, decision making becomes slow and take lots of resources to take any decision. To overcome these limitations, an approach come into existence which i feel is derived a democratic society only, elect the representatives, now it’s there responsibility to take decision. These representatives are elected by the voters, and can be voted out if they are not doing as they suppose to do by society. Unlike our society where election happens after a certain period of time (5 years), over here, voting happens in real time.
 
-<!--EndFragment-->\
+<!--EndFragment-->
 
 This post is original published on Medium [here](https://medium.com/@raman.jay14/blockchain-a-democracy-cf5c6fad71eb)
