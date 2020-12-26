@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Blockchain a democracy
-date: 2020-12-23T10:55:09.123Z
+date: 2019-01-30T10:55:09.123Z
 author: Raman
 categories: Blockchain
 ---
