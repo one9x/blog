@@ -16,7 +16,7 @@ post_class: post-template
         </div>
 
         <!-- Post -->
-        {% assign author = site.authors| find:'name', page.author %}
+        {% assign author = site.authors | where: 'name' , post.author | first %}
 
         <div class="col-md-9 flex-first flex-md-unordered">
             <div class="mainheading">
