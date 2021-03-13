@@ -1,5 +1,6 @@
 <!-- begin post -->
-{% assign author = site.authors | find:'name' , post.author %}
+{% assign authors = site.collections | find:'label', 'authors' %}
+{% assign author = authors.collection | find:'name' , post.author %}
 <div class="col-md-6 mb-30px">
     <div class="listfeaturedtag h-100">
         <div class="row h-100">
