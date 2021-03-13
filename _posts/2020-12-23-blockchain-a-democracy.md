@@ -2,8 +2,9 @@
 layout: post
 title: Blockchain a democracy
 date: 2019-01-30T10:55:09.123Z
+featured: true
 author: Raman
-categories: Blockchain
+categories: [Blockchain]
 ---
 <!--StartFragment-->
 

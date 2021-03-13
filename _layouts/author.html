@@ -1,0 +1,95 @@
+---
+title: "Authors"
+layout: default
+permalink: "/authors.html"
+---
+
+<div class="container">
+    <div class="row">
+
+        <!-- Post Share -->
+        <div class="col-md-2 pl-0">
+            {% include share.html %}
+        </div>
+
+        <div class="col-md-9 flex-first flex-md-unordered">
+            <div class="mainheading">
+                {% assign author = page %}
+                <div class="row post-top-meta">
+                    <div class="col-xs-12 col-md-3 col-lg-2 text-center text-md-left mb-4 mb-md-0">
+                        {% if page.avatar %}
+                        <img class="author-thumb" src="{{site.baseurl}}/{{ page.avatar }}"
+                            alt="{{ page.display_name }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-xs-12 col-md-9 col-lg-10 text-center text-md-left">
+                        <a href="{{ page.url }}" class="link-dark">
+                            {{ author.display_name }}
+                        </a>
+
+                        {% if page.web != "" %}
+                        <a target="_blank" class="link-dark" href="{{ page.web }}">
+                            <i class="fa fa-link"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if page.twitter %}
+                        <a target="_blank" class="link-dark" href="https://www.twitter.com/{{ page.twitter }}">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if page.github %}
+                        <a target="_blank" class="link-dark" href="https://www.github.com/{{ page.github }}">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if page.linkedin %}
+                        <a target="_blank" class="link-dark" href="https://www.linkedin.com/in/{{ page.linkedin }}">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        {% endif %}
+
+                        <br>
+                        <img src="https://visitor-badge.glitch.me/badge?page_id=one9x.{{ author.name }}" alt="" />
+                        <br>
+                        <span class="author-description">{{ author.description }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Adsense if enabled from _config.yml (change your pub id and slot) -->
+            {% if site.adsense == "enabled" %}
+            {% include adsense-under-header.html %}
+            {% endif %}
+            <!-- End Adsense -->
+
+            <!-- Post Content -->
+            <div class="article-post">
+                {{content}}
+            </div>
+
+            <section class="recent-posts">
+
+                <div class="section-title">
+
+                    <h2><span>Posts</span></h2>
+
+                </div>
+
+                <div class="row listrecent">
+                    {% assign posts = site.posts| where:'author', page.name %}
+                    {% for post in posts %}
+
+                    {% include postbox.html %}
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+            <!-- End Post -->
+        </div>
+    </div>
+</div>

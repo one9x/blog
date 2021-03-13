@@ -6,7 +6,7 @@ backend:
 
 publish_mode: editorial_workflow
 media_folder: "images/uploads"
-public_folder: "/images/uploads" # The src attribute for uploaded media will begin with /images/uploads
+public_folder: "images/uploads" # The src attribute for uploaded media will begin with /images/uploads
 
 collections:
   - name: "blog" # Used in routes, e.g., /admin/collections/blog
@@ -20,7 +20,7 @@ collections:
       - { label: "Publish Date", name: "date", widget: "datetime" }
       - {
           label: "Featured Image",
-          name: "thumbnail",
+          name: "image",
           widget: "image",
           required: false,
         }
@@ -30,13 +30,7 @@ collections:
           widget: "relation",
           collection: "authors",
           display_fields: [display_name],
-          search_fields:
-            [
-              display_name,
-              github_username,
-              twitter_username,
-              linkedin_username,
-            ],
+          search_fields: [display_name, github, twitter, linkedin],
           value_field: "name",
         }
       - { label: "Category", name: "categories", widget: "string" }
@@ -51,18 +45,11 @@ collections:
       preview: false
     fields:
       - { label: "Layout", name: "layout", widget: "hidden", default: "author" }
-      - { label: "Short Name", name: "name", widget: "string" }
+      - { label: "Name", name: "name", widget: "string" }
       - { label: "Display Name", name: "display_name", widget: "string" }
-      - { label: "profile_pic", name: "profile_pic", widget: "image" }
-      - { label: "Github Username", name: "github_username", widget: "string" }
-      - {
-          label: "Twitter Username",
-          name: "twitter_username",
-          widget: "string",
-        }
-      - {
-          label: "LinkedIn Username",
-          name: "linkedin_username",
-          widget: "string",
-        }
-      - { label: "Bio", name: "bio", widget: "markdown" }
+      - { label: "Avatar", name: "avatar", widget: "image" }
+      - { label: "Github Username", name: "github", widget: "string" }
+      - { label: "Twitter Username", name: "twitter", widget: "string" }
+      - { label: "LinkedIn Username", name: "linkedin", widget: "string" }
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "About", name: "body", widget: "markdown" }

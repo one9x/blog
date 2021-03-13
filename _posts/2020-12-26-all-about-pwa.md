@@ -2,8 +2,9 @@
 layout: post
 title: All about PWA
 date: 2019-04-19T11:15:54.052Z
+featured: true
 author: Aanchal
-categories: Web
+categories: [ Web ]
 ---
 
 

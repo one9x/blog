@@ -20,19 +20,53 @@
 
 title: Blog | One9x
 name: One9x
-email: contact@one9x.com
+email: contact@one9x.org
 description: >- # this means to ignore newlines until "baseurl:"
-  This is the blog site of one9x org.
-baseurl: "/" # the subpath of your site, e.g. /blog
-url: "https://blog.one9x.com" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: one9x_offical
-github_username:  one9x
+  
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://blog.one9x.org" # the base hostname & protocol for your site, e.g. http://example.com
+twitter: one9x_offical
+github: one9x
+logo: 'assets/images/logo.png'
+favicon: 'assets/images/logo.png'
 
 # Build settings
-theme: minima
+#theme: minima
+# Plugins
 plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
   - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-archives
+    
+# Archives
+jekyll-archives:
+  enabled:
+    - categories
+  layout: archive
+  permalinks:
+    category: '/category/:name/'
+    
+# Pagination 
+paginate: 6
+paginate_path: /page:num/
+    
+# Other
+markdown: kramdown
 
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+
+lazyimages: "enabled"
+
+collections:
+  authors:
+    output: true
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
