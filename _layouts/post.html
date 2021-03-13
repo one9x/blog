@@ -13,6 +13,8 @@ post_class: post-template
         <!-- Post Share -->
         <div class="col-md-2 pl-0">
             {% include share.html %}
+            <div class="sep">
+            </div>
         </div>
 
         <!-- Post -->
@@ -30,8 +32,11 @@ post_class: post-template
                         {% endif %}
                     </div>
                     <div class="col-xs-12 col-md-9 col-lg-10 text-center text-md-left">
-                        <a target="_blank" class="link-dark" href="{{ author.web }}">{{ author.display_name }}</a><a target="_blank" href="https://twitter.com/{{ author.twitter }}" class="btn follow">Follow</a>
+                        <a target="_blank" class="link-dark" href="{{ author.url }}">{{ author.display_name }}</a>
+                        <br>
                         <span class="author-description">{{ author.description }}</span>
+                        <br>
+                        <img src="https://visitor-badge.glitch.me/badge?page_id=one9x.post.{{ page.title }}" alt="visitor count" />
                     </div>
                 </div>
                 {% endif %}
