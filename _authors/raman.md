@@ -7,11 +7,12 @@ github: ramank775
 twitter: ramank775
 web: null
 linkedin: ramank775
-description: Hi There!!
+description: Hi There!!. I am  sr. software engineer. I really enjoy working on
+  designing and developing backend system and can work on the any end.
 ---
 ### Hi there 👋
 
-I am a software engineer (Tech Lead fancy professional designation if that matters!!). I really enjoy working on designing and developing backend system and can work on the any end.
+I am  sr. software engineer. I really enjoy working on designing and developing backend system and can work on the any end.
 
 - 🔭 I'm currently working on an open source personal chat messenger [Vartalap](https://play.google.com/store/apps/details?id=com.one9x.vartalap).
 - 👯 I'm looking to collaborate on development of open sources alternatives of daily used closed source systems.
