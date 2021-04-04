@@ -103,7 +103,9 @@ post_class: post-template
                     {% assign sortedCategories = page.categories | sort %}
                     {% for category in sortedCategories %}
                     <li>
-                        <a class="smoothscroll" href="{{site.baseurl}}/category/{{ category | replace: " ","-" }}">{{ category }}</a>
+                        <!-- Disable link to category as github pages doesn't seems to be working with jekyll-archives -->
+                        <!-- <a class="smoothscroll" href="{{site.baseurl}}/category/{{ category | replace: " ","-" }}">{{ category }}</a> -->
+                        <a class="smoothscroll" href="#">{{ category }}</a>
                     </li>
                     {% endfor %}
                 </ul>
@@ -116,7 +118,9 @@ post_class: post-template
                     {% assign sortedTags = page.tags | sort %}
                     {% for tag in sortedTags %}
                     <li>
-                        <a class="smoothscroll" href="{{site.baseurl}}/tags#{{ tag | replace: " ","-" }}">#{{ tag }}</a>
+                        <!-- Disable link to tags as github pages doesn't seems to be working with jekyll-archives -->
+                        <!-- <a class="smoothscroll" href="{{site.baseurl}}/tags#{{ tag | replace: " ","-" }}">#{{ tag }}</a> -->
+                        <a class="smoothscroll" href="#">#{{ tag }}</a>
                     </li>
                     {% endfor %}
                 </ul>
