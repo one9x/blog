@@ -43,6 +43,8 @@ The advantage of having microservice architecture are
 
 In fact due the microservices it helps me motivated to build the system. Instead of waiting to bring the whole system up, I work on particular parts in my free time then deployed it and share it with friends and family members. Continuous feedback from them keeps me motivated but continue the development.
 
+Find the source code on GitHub at [chat server](https://github.com/ramank775/chat-server)
+
 ## Components
 
 * Nginx as API gateway
@@ -232,12 +234,12 @@ Server Side.
 * Publish message to `groupMessage`.
 * `groupMessage` will be handled similar to Create New Group.
 
-
 ## Limitation of Current Architecture
-- No proper acknowledgement system for message delivery.
-- Only web socket gateway for events, making it difficult for background event syncing.
-- Router publishing directly into gateway topic, making message delivery logic to be duplicated among services.
-- Group operations are synchronous making it not useable offline.
-- Base message template for events.
+
+* No proper acknowledgement system for message delivery.
+* Only web socket gateway for events, making it difficult for background event syncing.
+* Router publishing directly into gateway topic, making message delivery logic to be duplicated among services.
+* Group operations are synchronous making it not useable offline.
+* Base message template for events.
 
 To overcome the limitation of current system I am working on the second version of the system. Details of which I'll be sharing on the next blog post.
