@@ -10,7 +10,7 @@ This is second blog post is part of series of blog posts, where I will be sharin
 
 If you had read the previous blog post, you known that Vartalap is started as a learning project for Kafka and to test my skills to architect a system. Before starting architecting that system, Always the first step will be the note down the functional and non-functional requirement. Writing down the requirements gives the better picture what do we need to architect. One thing which is there in my mind to I am not going to build the complete system in one go, So I selected few of the minimal requirement which is should be there so make the application useable or the MVP product.
 
-#### Functional Requirement
+## Functional Requirement
 
 * Login with mobile number.
 * 1 to 1 and group rich text messaging (Supports emoticons).
@@ -19,7 +19,7 @@ If you had read the previous blog post, you known that Vartalap is started as a 
 * Can receive message when user existed the app.
 * Messages shouldn't be stored on the server forever.
 
-### Non-Functional Requirement
+## Non-Functional Requirement
 
 * Real time message delivery
 * Scalable 
@@ -27,7 +27,7 @@ If you had read the previous blog post, you known that Vartalap is started as a 
 * Fault tolerance
 * Data integrate
 
-## Architecture
+# Architecture
 
 After doing few iteration of working on the architecture, finally I settled with this one.
 
@@ -43,7 +43,7 @@ The advantage of having microservice architecture are
 
 In fact due the microservices it helps me motivated to build the system. Instead of waiting to bring the whole system up, I work on particular parts in my free time then deployed it and share it with friends and family members. Continuous feedback from them keeps me motivated but continue the development.
 
-### Components
+## Components
 
 * Nginx as API gateway
 * Kafka as Message brokers
@@ -52,7 +52,7 @@ In fact due the microservices it helps me motivated to build the system. Instead
 * Redis as cache store
 * Nodejs for microservices
 
-#### Services
+## Services
 
 List of microservices and responsibility:
 
@@ -106,9 +106,9 @@ List of microservices and responsibility:
   * Responsibility
   * Route Group Message to respective destination
 
-### Request flows
+## Request flows
 
-#### Authentication
+### Authentication
 
 Client Side:
 
@@ -120,105 +120,124 @@ Client Side:
 
 Server Side:
 
-  * Verify firebase authentication token
-  * Check if it's a new user then signup
-  * Generate authentication token
-  * Publish event for new login
-  * Return authentication token
+* Verify firebase authentication token
+* Check if it's a new user then signup
+* Generate authentication token
+* Publish event for new login
+* Return authentication token
+* Push Notification service listen to new login event
+* Update the FCM token against the user
 
-  * Push Notification service listen to new login event
-  * Update the FCM token against the user
-
-#### Startup
+### Startup
 
 * On App open
   Client Side: 
+
   * Web socket connection request.
   * Contact Sync request.
 
   Server Side (Web socket):
+
   * Nginx authenticates via issuing sub-request to profile ms for auth.
   * Nginx forward request to web socket gateway.
   * Fetch user info for request header.
   * Gateway accepts the upgrade connection requests.
   * Raise event for `onConnect` to message brokers.
   * Store web socket connection against users.
-
   * Session ms listen for `onConnect` event and store information of user and gateway mapping
   * Persistence ms listen for `onConnect` event and fetch all the pending messages
   * Publish `onMessage` event for the user.
   * Delete all the stored messages.
 
   Server Side (Sync request):
+
   * Nginx authenticates via issuing sub-request to profile ms for auth.
   * Nginx forward request to profile ms for contact sync.
   * Profile ms verify the registered users from list of contacts in payload.
   * Returns list of app users from contacts in payload.
 
-#### Send Message (1 to 1)
+### Send Message (1 to 1)
 
 Client Side:
-  * Send message against a chat
-  * Store message against chat in local store
-  * Publish message to web socket.
+
+* Send message against a chat
+* Store message against chat in local store
+* Publish message to web socket.
 
 Server Side.
-  * Gateway publish `onMessage` event to message broker to meta info like from.
-  * Message router listen for `onMessage`.
-  * Parse the message and extract destination information.
-  * Call session ms for gateway server against the user.
-  * If user is connected.
-  * Publish message to message broker against gateway server topic (generally the name of the server).
-  * Gateway server listen for it's topic and tries to send message to user socket.
-  * If failed, publish message for failed message which will be against consumed by message router and follow same steps.
-  * If user is not connected.
-  * Publish message to offline message.
-  * Push notification ms listen for offline message and send push notification.
-  * Persistence ms listen for offline message and store in the database until user comes online.
 
-#### Group Chat
+* Gateway publish `onMessage` event to message broker to meta info like from.
+* Message router listen for `onMessage`.
+* Parse the message and extract destination information.
+* Call session ms for gateway server against the user.
+* If user is connected.
+* Publish message to message broker against gateway server topic (generally the name of the server).
+* Gateway server listen for it's topic and tries to send message to user socket.
+* If failed, publish message for failed message which will be against consumed by message router and follow same steps.
+* If user is not connected.
+* Publish message to offline message.
+* Push notification ms listen for offline message and send push notification.
+* Persistence ms listen for offline message and store in the database until user comes online.
 
-##### Create New Group
+## Group Chat
+
+### Create New Group
+
 Client Side:
-  * Choose the participants and group name.
-  * Send http request to create group.
+
+* Choose the participants and group name.
+* Send http request to create group.
 
 Server Side:
-  * Nginx authenticates via issuing sub-request to profile ms for auth.
-  * Nginx forward request to group ms.
-  * Group ms validate the participants
-  * Create a new group
-  * Publish new `groupMessage` for participants.
-  * Returns `groupId`.
 
+* Nginx authenticates via issuing sub-request to profile ms for auth.
+* Nginx forward request to group ms.
+* Group ms validate the participants
+* Create a new group
+* Publish new `groupMessage` for participants.
+* Returns `groupId`.
+* Group Message router, fetch the connected gateway server info from session ms.
+* Publish message to gateway topic. (Further flow will be same as 1 to 1 chat).
+* For offline message published to offline message.(Further flow will be same as 1 to 1 chat).
 
-  * Group Message router, fetch the connected gateway server info from session ms.
-  * Publish message to gateway topic. (Further flow will be same as 1 to 1 chat).
-  * For offline message published to offline message.(Further flow will be same as 1 to 1 chat).
+### Update Group
 
-#### Update Group
 Client Side:
-  * Choose participants to add or remove.
-  * Send http request for add or remove.
+
+* Choose participants to add or remove.
+* Send http request for add or remove.
 
 Server Side:
-  * Nginx authenticates via issuing sub-request to profile ms for auth.
-  * Nginx forward request to group ms.
-  * Group ms validate the participants
-  * Update the group
-  * Publish new `groupMessage` for participants.
-  * `groupMessage` will be handled similar to Create New Group.
 
-#### Send Message (Group Message).
+* Nginx authenticates via issuing sub-request to profile ms for auth.
+* Nginx forward request to group ms.
+* Group ms validate the participants
+* Update the group
+* Publish new `groupMessage` for participants.
+* `groupMessage` will be handled similar to Create New Group.
+
+### Send Message (Group Message).
 
 Client Side:
-  * Send message against a chat
-  * Store message against chat in local store
-  * Publish message to web socket.
+
+* Send message against a chat
+* Store message against chat in local store
+* Publish message to web socket.
 
 Server Side.
-  * Gateway publish `onMessage` event to message broker to meta info like from.
-  * Message router listen for `onMessage`.
-  * Parse the message and extract destination information.
-  * Publish message to `groupMessage`.
-  * `groupMessage` will be handled similar to Create New Group.
+
+* Gateway publish `onMessage` event to message broker to meta info like from.
+* Message router listen for `onMessage`.
+* Parse the message and extract destination information.
+* Publish message to `groupMessage`.
+* `groupMessage` will be handled similar to Create New Group.
+
+
+## Limitation of Current Architecture
+- No proper acknowledgement system for message delivery.
+- Only web socket gateway for events, making it difficult for background event syncing.
+- Router publishing directly into gateway topic, making message delivery logic to be duplicated among services.
+- Group operations are synchronous making it not useable offline.
+- Base message template for events.
+
+To overcome the limitation of current system I am working on the second version of the system. Details of which I'll be sharing on the next blog post.
