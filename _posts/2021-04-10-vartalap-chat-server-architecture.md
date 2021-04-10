@@ -2,7 +2,7 @@
 layout: post
 title: "Vartalap: Chat Server Architecture"
 date: 2021-04-10T07:00:00.607Z
-image: images/uploads/vartalap-header.png
+image: images/uploads/architecture.png
 author: Raman
 categories: Vartalap
 ---
