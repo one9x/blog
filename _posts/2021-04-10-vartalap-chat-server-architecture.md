@@ -2,7 +2,7 @@
 layout: post
 title: "Vartalap: Chat Server Architecture"
 date: 2021-04-10T07:00:00.607Z
-image: images/uploads/architecture.png
+image: images/uploads/vartalap-header.png
 author: Raman
 categories: Vartalap
 ---
@@ -31,7 +31,7 @@ If you had read the previous blog post, you known that Vartalap is started as a 
 
 After doing few iteration of working on the architecture, finally I settled with this one.
 
-![Vartalap Server Architecture](images/uploads/architecture.png "Vartalap Server Architecture V1")
+![Vartalap Server Architecture](/images/uploads/architecture.png "Vartalap Server Architecture V1")
 
 It's an microservice based architecture where system is divided into small groups of individual service responsible to handling a particular feature of the system. 
 The advantage of having microservice architecture are
