@@ -24,7 +24,7 @@ Links to previous blog posts:
 
 New Architecture update:
 
-![Vartalap Architecture V2](images/uploads/architecture-v2.png "Vartalap Architecture V2")
+![Vartalap Architecture V2](/images/uploads/architecture-v2.png "Vartalap Architecture V2")
 
 In V2 version of the system external interface of the system remains the same, however there are new components are introduced and the responsibilities has been distributed/ transferred within the components. 
 
