@@ -76,8 +76,6 @@ We have two new services
 
   * Handle ack message as forwarded by `session ms.`
 
-
-
 ## Updated Request Flow
 
 #### Send Message (1 to 1)
@@ -111,6 +109,10 @@ We have two new services
 * If message is not ack, Store in the database until user comes online.
 * If message is ack, remove the stored messages.
 
+
+
+
+
 #### Group Chat
 
 ##### Create New Group
@@ -135,6 +137,8 @@ We have two new services
   * Publish new `send message` for participants.
   * Further flow will be same as 1 to 1 chat.
 
+
+
 ##### Update Group
 
 **Client Side**
@@ -150,6 +154,8 @@ We have two new services
 * **Async/Offline** flow
 
   * It will be handled similar to create group flow, with exception that instead `create group` call by message handle it will be `update group`.
+
+
 
 ##### Send Message (Group Message).
 
@@ -167,21 +173,32 @@ All the steps are similar to 1 to 1 chat flow, other than the following mentione
 * Update the message META with target users.
 * Publish message to `send message` event to message broker.
 
+
+
 ## **Let's see how new version of the system solves the existing problems.**
 
 * #### No proper acknowledgement system
 
   Now the client needs to send the ack message against the message id to mark the message as delivered else the system will retry to send the message. If failed it will be treated as offline message and will be stored in database and push via firebase.
+
+
 * #### Only web socket gateway for events, making it difficult for background event syncing.
 
   With new `Rest Gateway` and `Persistence store rest endpoint` background event syncing is possible.
+
+
 * #### Router publishing directly into gateway topic, making message delivery logic to be duplicated among services.
 
   Responsibility to route message to gateway now has been move to `Session MS` which will act as the common point of contact to send the message to client. 
+
+
 * #### Group operations are synchronous making it not useable offline.
 
   Group operation as now async using the `Rest Gateway` and `Group message router` new update.
 
+
+
 I have start working on incorporating the required changes in the system, It will be available soon.
 
-If you have any have suggestions or questions feel free to reach out to me on twitter [@ramank775](https://twitter.com/@ramank775).
+If you have any have suggestions or questions feel free to reach out to me. 
+My contact links are available on my bio page [Raman](https://blog.one9x.org/authors/raman.html).
