@@ -80,7 +80,7 @@ In this iteration, both `session ms` and `persistence storage ms` are merged int
 
 * No data loss.
 * No overlapping responsibility. 
-* Reduce the complexity as now there is no need for listen to timeout for acknowledgment as now the operation is as simple as removing message as acknowledgment received.
+* Reduce the complexity as there is no need for listen to timeout for acknowledgment to store message for offline as now the logic is as simple as removing message as acknowledgment received.
 * Less moving parts, as two services are merged into a single one with maintaining the segregation of responsibility.
 * `Message delivery ms` name seems to be more suitable for the operation then `session-ms`.
 
