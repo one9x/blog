@@ -91,3 +91,6 @@ In this iteration, both `session ms` and `persistence storage ms` are merged int
 * High frequency database operation insertion and deletion of messages
 
   This can become bottleneck when the load is high, however it can be resolved by using multi level storage solution i.e. where first message will be stored in memory, then after certain time period it will be added to disk storage. Most of the real time operation can be handled when data is in memory or faster access storage leads to better performance and fewer operation on data which is stored on disk. Something similar to [Facebook Iris](https://engineering.fb.com/2014/10/09/production-engineering/building-mobile-first-infrastructure-for-messenger/)
+
+
+If you have any have suggestions or questions feel free to reach out to me. My contact links are available on my bio page [Raman](https://blog.one9x.org/authors/raman.html).
