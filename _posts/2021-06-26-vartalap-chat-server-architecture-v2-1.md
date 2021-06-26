@@ -6,7 +6,7 @@ image: images/uploads/vartalap-header.png
 author: Raman
 categories: Vartalap
 ---
-This is third blog post in series of blogs posts, where I will be sharing details about Vartalap. How it started, decision I make while development, technical details, problem with current system and how I am planning to solve it. In this blog I'll be discussing the new iteration of improvements in the backend architecture v2. If you haven’t already read the previous one where I have shared the v2 of the architecture, I highly recommend reading it before proceeding further [Vartalap: Chat Server Architecture V2](https://blog.one9x.org/vartalap/2021/05/22/vartalap-chat-server-architecture-v2.html).
+This is 4th blog post in series of blogs posts, where I will be sharing details about Vartalap. How it started, decision I make while development, technical details, problem with current system and how I am planning to solve it. In this blog I'll be discussing the new iteration of improvements in the backend architecture v2. If you haven’t already read the previous one where I have shared the v2 of the architecture, I highly recommend reading it before proceeding further [Vartalap: Chat Server Architecture V2](https://blog.one9x.org/vartalap/2021/05/22/vartalap-chat-server-architecture-v2.html).
 
 ## Problem Statement
 
