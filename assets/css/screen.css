@@ -78,6 +78,11 @@ section.recent-posts {
     margin-bottom: -1px;
 }
 
+.article-post {
+  text-align: justify !important;
+  text-justify: inter-word !important;
+}
+
 .article-post ol,
 .article-post ul {
     margin-bottom: 1.5rem;
