@@ -23,5 +23,3 @@ I am  sr. software engineer. I really enjoy working on designing and developing 
 
 ### My GitHub stats
 ![GitHub stats](https://github-readme-stats.vercel.app/api?username=ramank775&show_icons=true)
-
-<iframe src="https://github.com/sponsors/ramank775/button" title="Sponsor ramank775" height="35" width="116" style="border: 0;"></iframe>
