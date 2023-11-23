@@ -2,7 +2,7 @@ backend:
   name: github
   repo: one9x/blog
   branch: main
-  base_url: https://one9x-github-auth.azurewebsites.net
+  base_url: https://sso-blog.one9x.org
 
 publish_mode: editorial_workflow
 media_folder: "images/uploads"
