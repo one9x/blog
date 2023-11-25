@@ -29,6 +29,7 @@ twitter: one9x_offical
 github: one9x
 logo: 'assets/images/logo.png'
 favicon: 'assets/images/logo.png'
+repository: 'one9x/blog'
 
 # Build settings
 #theme: minima

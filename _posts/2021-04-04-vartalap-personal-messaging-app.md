@@ -5,6 +5,7 @@ date: 2021-04-04T09:48:45.860Z
 image: images/uploads/vartalap-header.png
 author: Raman
 categories: Vartalap
+comments: true
 ---
 This blog post is part of series of blog post, where I will be sharing details about [Vartalap](https://vartalap.one9x.org) how it started, decision I make while developing it, technical details, problem with current system and how I am planning to solves it. In this blog I will be sharing introduction of Vartalap, motivation behind development and how it started.
 
