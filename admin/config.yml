@@ -34,8 +34,20 @@ collections:
           search_fields: [display_name, github, twitter, linkedin],
           value_field: "name",
         }
-      - { label: "Category", name: "categories", widget: "list", allow_add: true }
-      - { label: "Tags", name: "tags", widget: "list", allow_add: true }
+      - { 
+          label: "Category", 
+          name: "categories", 
+          widget: "list", 
+          allow_add: true, 
+          field: { name: "category", label: "category", widget: "string" },
+        }
+      - { 
+          label: "Tags", 
+          name: "tags", 
+          widget: "list", 
+          allow_add: true,
+          field: { name: "category", label: "category", widget: "string" },
+        }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "authors"
