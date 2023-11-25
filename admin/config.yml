@@ -46,7 +46,7 @@ collections:
           name: "tags", 
           widget: "list", 
           allow_add: true,
-          field: { name: "category", label: "category", widget: "string" },
+          field: { name: "tag", label: "tag", widget: "string" },
         }
       - { label: "Body", name: "body", widget: "markdown" }
 
