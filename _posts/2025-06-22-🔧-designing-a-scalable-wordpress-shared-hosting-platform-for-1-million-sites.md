@@ -14,10 +14,12 @@ tags:
   - kuberenets
 ---
 Hosting a wordpress site is one of the first things many developers do. It feels straightforward:
-either 
+
+Either 
 - Choose a wordpress hosting provider 
 - Click deploy
-or: 
+
+Or: 
 - Spin up a server 
 - Install PHP, Nginx, Postgres/Mysql 
 - Run famous 5-minute wordpress setup. 
