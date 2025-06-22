@@ -5,7 +5,7 @@ date: 2025-06-22T07:38:13.487Z
 comments: true
 author: Raman
 categories:
-  - System Design
+  - system-design
 tags:
   - serverless
   - wordpress
@@ -25,7 +25,7 @@ This discussion is divided into 3 parts
 - The solution
 
 
-# 🧭 Problem Statement
+# Problem Statement
 
 Shared hosting is the default for most WordPress websites — but naive approaches don’t scale well.
 
@@ -46,22 +46,22 @@ But growth is sneaky. A client’s blog goes viral, or a new customer signs up e
 
 Let’s break down the hidden pitfalls:
 
--  **🐢 Performance tanks fast**
+-  **Performance tanks fast**
 One busy site slows down every other site on the same box. You can buy more servers — but that spreads the problem, it doesn’t solve it.
 
-- **🔒 Security and isolation are weak**
+- **Security and isolation are weak**
 Shared servers mean one hacked site can expose dozens more. Cheap shared hosting rarely has real sandboxing.
 
-- **🔄 Updates turn into nightmares**
+- **Updates turn into nightmares**
 Running a security update on WordPress core, or a popular plugin, for 5 sites is fine. Doing it for 10,000 sites? Now you’re awake at 2am writing bash scripts and praying nothing breaks.
 
-- **💸 Costs spiral out of control**
+- **Costs spiral out of control**
 Hosting businesses make money by squeezing as many sites as possible onto each machine — *without* each site needing dedicated CPU and RAM all the time.
 
-- **⚙️ Scaling is manual and fragile**
+- **Scaling is manual and fragile**
 Need to move a site to a less loaded server? Better update DNS, the NGINX configs, the database settings, and hope you don’t break SSL in the process.
 
-### 🎯 **What We Really Want**
+### What We Really Want
 
 So what does the *ideal* solution look like?
 
@@ -76,7 +76,7 @@ So what does the *ideal* solution look like?
 Sounds impossible? Not quite. Big hosting providers like WP Engine, Kinsta, or large SaaS platforms have cracked this at scale — by combining clever design, modern tools, and lessons learned from obervations.
 
 
-# 🧭 The Thought Process
+# The Thought Process
 
 Before designing something that can host millions of WordPress sites, it’s worth stepping back to understand how a single site works — and how the naive approach evolves (and eventually breaks) as we scale.
 
@@ -109,13 +109,13 @@ Now, suppose you want to host a few more sites on the same server. The steps are
 
 This works nicely for a **handful of sites** — you can script or automate it with Infrastructure-as-Code (IaC) tools, keeping maintenance overhead low.
 
-**✅ Pros of this naive approach**
+**Pros of this naive approach**
 - Easy to set up.
 - Simple resource sharing.
 - Low upfront cost.
 - Straightforward to automate for a small fleet.
 
-**❌ Where it starts to break?**
+**Where it starts to break?**
  as your hosting business grows, cracks appear:
 
 - **Noisy Neighbor Problem:** One busy site can hog CPU, RAM, or disk I/O, degrading performance for others.
@@ -133,7 +133,7 @@ A common next step is to run multiple servers, each hosting many sites. This dis
 - To smooth this out, some hosts use Virtual IPs (VIPs) or reassign public IPs to new servers — but this gets operationally messy at scale.
 
 
-###  Enter Containers and Orchestration
+### Enter Containers and Orchestration
 
 Modern best practice is to move from VMs to containers:
 
@@ -152,7 +152,7 @@ The hosting economics reality hosts stay profitable by **over-provisioning**, Fo
 
 If you use containers with strict resource requests and limits, you lose some of this oversubscription advantage — hurting your efficiency and profit margin. *No matter how good a solution techincally is, business always runs on profilts.*
 
-###  The Big Waste: Duplicate WordPress Core
+### The Big Waste: Duplicate WordPress Core
 
 If we observe the containers and even classic server setups, we hit another waste:  
 Every site had its *own copy* of the WordPress core files — `wp-admin`, `wp-includes`, etc.
@@ -224,7 +224,7 @@ This means:
 # The solution
 If we stitched everything together - The practical blueprint of a wordpress hosting system built to handle millions of sites is ready.
 
-## 🧱 Architecture at a Glance
+###  Architecture at a Glance
 
 - **Compute is stateless** — any pod can serve any site.  
 - **Storage is shared, redundant, and infinite-ish.**
@@ -233,14 +233,14 @@ If we stitched everything together - The practical blueprint of a wordpress host
 - **WordPress core is versioned once, symlinked everywhere.**  
 - **Databases are multi-tenant and connection-pooled.**
 
-## ⚙️ **How It’s Built**
+###  **How It’s Built**
 
-🏗️ **Kubernetes for Compute**
+#### **Kubernetes for Compute**
 - Pods run **NGINX + PHP-FPM** statelessly.  
 - Ingress or Gateway API handles routing.  
 - Pods auto-scale with load.
 
-🔑 **Read vs Write Pods**
+#### **Read vs Write Pods**
 
 To keep performance high and secure:
 - **Read-Only Pods** serve cached pages, mount storage read-only, and scale freely.
@@ -248,7 +248,7 @@ To keep performance high and secure:
 
 This handles huge visitor traffic while keeping backend actions secure and predictable.
 
-🗂️ **Shared Storage**
+#### **Shared Storage**
 
 Options:
 - **CephFS:** Highly scalable, self-healing.
@@ -257,7 +257,7 @@ Options:
 
 Each site’s folder contains unique content; the WordPress core is symlinked.  No more duplicating 50 MB per site for millions of sites.
 
-🗄️ **Database**
+#### **Database**
 
 Managing millions of databases is no small feat. To handle this at scale, we can use **[Neon](https://github.com/neondatabase/neon)**, a serverless, multi-tenant PostgreSQL service built for massive workloads.
 
@@ -273,7 +273,7 @@ Managing millions of databases is no small feat. To handle this at scale, we can
 * Simple and consistent database management
 
 
-**🌐 Handling Domains Dynamically**
+#### **Handling Domains Dynamically**
 With millions of domains, we can't maintain 1 million NGINX configs or ingress rules. 
 So we created a **Domain Resolver Service**:
 * Accepts a domain (e.g., `foo.com`)
@@ -287,7 +287,7 @@ So we created a **Domain Resolver Service**:
 4. Forwards PHP requests to **PHP-FPM** with correct `SCRIPT_FILENAME`
 
 
-## ⚙️ **Provisioning a New Site**
+### ⚙️ **Provisioning a New Site**
 
 In a nutshell:
 1. Create folder on shared storage.
@@ -297,9 +297,9 @@ In a nutshell:
 5. Register in Domain Resolver.
 6. DNS points to your global load balancer.
 
-## ✅ **What Works Well**
+###  **What Works Well**
 
-| 🔑 What We Built | ✅ Why It Works |
+|  What We Built |  Why It Works |
 |------------------|------------------|
 | **Stateless pods** | Easy to scale and upgrade |
 | **Shared storage** | One source of truth, resilient |
@@ -308,11 +308,11 @@ In a nutshell:
 | **Multi-tenant DB + pooling** | Efficient connections at scale |
 | **CDN + FastCGI Cache** | Fast delivery for visitors |
 
-## 🎯 **The Trade-Off**
+### **The Trade-Off**
 
 No system is flawless — here are the *real* trade-offs unique to this approach:
 
-### 🗂️ **1️⃣ Shared Storage Needs Careful Tuning**
+#### **Shared Storage Needs Careful Tuning**
 
 Using a single distributed file system for millions of sites means:
 - Heavy traffic spikes or huge file uploads can stress IOPS and metadata performance.
@@ -321,9 +321,8 @@ Using a single distributed file system for millions of sites means:
 
 The benefit: it works — but shared storage performance must be tested and scaled properly.
 
----
 
-### 🌐 **2️⃣ Dynamic Routing Adds a Moving Part**
+#### **Dynamic Routing Adds a Moving Part**
 
 Resolving millions of domains on the fly means:
 - You need a robust, fast **Domain Resolver Service**.
@@ -333,7 +332,7 @@ Resolving millions of domains on the fly means:
 The benefit: zero static configs and easy automation — but you’re trading simplicity for flexibility.
 
 
-### ⚙️ **3️⃣ Ops & Automation Become Critical**
+#### **Ops & Automation Become Critical**
 
 This design heavily depends on:
 - Automated site provisioning (folders, symlinks, DB creation).
@@ -347,7 +346,7 @@ In short:
 
 If you run a serious hosting business, that trade usually pays off fast — but it’s not magic. You still need good ops practices, alerts, backups, and smart scaling rules.
 
-## 🚀 **What’s Next**
+##  **What’s Next**
 
 Want to build this?
 - Start small: prototype with a simple NFS  on a dev cluster.
@@ -358,7 +357,7 @@ Want to build this?
 Got ideas or want to share how *you’d* tweak this?  
 **Drop a comment — I’d love to hear your take! 🚀**
 
-## 📚 Resources
+##  Resources
 
 * [CephFS Documentation](https://docs.ceph.com/en/latest/cephfs/) — scalable POSIX-compliant distributed filesystem.
 * [Kubernetes + Rook](https://rook.io/) — run Ceph and other storage backends on Kubernetes.
@@ -371,4 +370,4 @@ Got ideas or want to share how *you’d* tweak this?
 * [Helm Charts for WordPress](https://artifacthub.io/packages/helm/bitnami/wordpress) — deploy WordPress on Kubernetes using Helm.
 
 
-**✨ Thanks for reading — happy scaling, and may your sites never crash!**
+** Thanks for reading — happy scaling, and may your sites never crash!**
