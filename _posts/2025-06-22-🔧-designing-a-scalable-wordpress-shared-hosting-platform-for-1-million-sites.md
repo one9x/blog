@@ -3,7 +3,7 @@ layout: post
 title: 🔧 Designing a Scalable WordPress Shared Hosting Platform for 1 Million Sites
 date: 2025-06-22T07:38:13.487Z
 comments: true
-image: /images/uploads/wordpress-blog.png
+image: images/uploads/wordpress-blog.png
 author: Raman
 categories:
   - system-design
@@ -13,7 +13,14 @@ tags:
   - neon database
   - kuberenets
 ---
-Hosting a wordpress site is one of the first things many developers do. It feels straightforward:  either choose a wordpress hosting provider — click deploy, or: Spin up a server — install PHP, Nginx, Postgres/Mysql — Run famous 5-minute wordpress setup.
+Hosting a wordpress site is one of the first things many developers do. It feels straightforward:
+either 
+- Choose a wordpress hosting provider 
+- Click deploy
+or: 
+- Spin up a server 
+- Install PHP, Nginx, Postgres/Mysql 
+- Run famous 5-minute wordpress setup. 
 
 It's simple, cheap, and works perfectly  —  for **one** site.
 But what if you want to host **Thousands sites**? or a million? Just like the hosting providers do.
@@ -371,4 +378,4 @@ Got ideas or want to share how *you’d* tweak this?
 * [Helm Charts for WordPress](https://artifacthub.io/packages/helm/bitnami/wordpress) — deploy WordPress on Kubernetes using Helm.
 
 
-** Thanks for reading — happy scaling, and may your sites never crash!**
+**Thanks for reading — happy scaling, and may your sites never crash!**
