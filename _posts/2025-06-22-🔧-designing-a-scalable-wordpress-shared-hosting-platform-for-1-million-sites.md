@@ -5,7 +5,7 @@ date: 2025-06-22T07:38:13.487Z
 comments: true
 author: Raman
 categories:
-  - System Design
+  - system-design
 tags:
   - serverless
   - wordpress
