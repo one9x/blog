@@ -3,6 +3,7 @@ layout: post
 title: 🔧 Designing a Scalable WordPress Shared Hosting Platform for 1 Million Sites
 date: 2025-06-22T07:38:13.487Z
 comments: true
+image: /images/uploads/wordpress-blog.png
 author: Raman
 categories:
   - system-design
