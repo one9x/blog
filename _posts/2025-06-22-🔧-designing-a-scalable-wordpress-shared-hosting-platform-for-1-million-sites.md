@@ -10,10 +10,9 @@ categories:
 tags:
   - serverless
   - wordpress
-  - neon database
   - kuberenets
 ---
-Hosting a WordPress site is often one of the first things many developers do. It feels straightforward: you either choose a WordPress hosting provider and click deploy, or you spin up a server, install PHP, Nginx, and Postgres/MySQL, then run the famous 5-minute WordPress setup. It's simple, cheap, and works perfectly—for **one** site.
+Hosting a WordPress site is often one of the first things many developers do. It feels straightforward: you either choose a WordPress hosting provider and click deploy, or you spin up a server, install PHP, Nginx, and MySQL/Mariadb, then run the famous 5-minute WordPress setup. It's simple, cheap, and works perfectly—for **one** site.
 
 But what if you want to host **thousands of sites**? Or even a million, just like the major hosting providers do? It's easy to assume that you can just "add more servers" and it magically scales, like in a system design YouTube tutorial. Unfortunately, it doesn't work that way. Let's try to understand and design "The WordPress Hosting Platform for a Million Sites."
 
@@ -78,7 +77,7 @@ Let’s start simple:
 
 ### Setting Up a Single WordPress Site
 
-  * Provision a VM with the necessary stack: PHP, NGINX, and Postgres.
+  * Provision a VM with the necessary stack: PHP, NGINX, and MySQL/Mariadb.
   * Create a database for WordPress.
   * Install and configure WordPress with the database credentials.
   * Set up an NGINX server block for the site’s domain.
@@ -96,7 +95,7 @@ Now, suppose you want to host a few more sites on the same server. The steps are
     /var/www/site2.com/
     /var/www/site3.com/
     ```
-  * Create an additional database (often on the same Postgres server).
+  * Create an additional database (often on the same database server).
   * Configure the new site to connect to the database.
   * Add a new NGINX configuration for the new domain.
 
@@ -267,19 +266,19 @@ Each site’s folder contains unique content; the WordPress core is symlinked. N
 
 #### Database
 
-Managing millions of databases is no small feat. To handle this at scale, we can use **[Neon](https://github.com/neondatabase/neon)**, a serverless, multi-tenant PostgreSQL service built for massive workloads.
+Managing millions of databases is no small feat. To handle this at scale, we can use **[TiDB](https://www.pingcap.com/)**, a serverless, multi-tenant MySQL service built for massive workloads.
 
 **How it works:**
 
-  * **Serverless:** Similar to our WordPress hosting system, Neon is a serverless Postgres, which has separate storage and compute. This helps with managing resources better, with only active sites consuming compute resources.
-  * **Multi-Tenant by Design:** Neon allows for creating separate databases (or schemas) for each WordPress site, providing strong data isolation and security. Each site’s domain is mapped to its dedicated Neon database automatically.
-  * **Connection Pooling with PgBouncer:** To prevent Neon from being flooded with thousands of short-lived connections, we run **PgBouncer**, a lightweight connection pooler. It reuses and multiplexes connections efficiently, keeping the database layer stable under high concurrency.
+  * **Serverless:** Similar to our WordPress hosting system, TiDB is a serverless MySQL, which has separate storage and compute. This helps with managing resources better, with only active sites consuming compute resources.
+  * **Multi-Tenant by Design:** It allows for creating separate databases (or schemas) for each WordPress site, providing strong data isolation and security. Each site’s domain is mapped to its dedicated database automatically.
+  * **Connection Pooling with ProxySQL:** To prevent DB from being flooded with thousands of short-lived connections, we run **ProxySQL**, a lightweight connection pooler. It reuses and multiplexes connections efficiently, keeping the database layer stable under high concurrency.
 
 **Benefits:**
 
   * Strong tenant isolation.
   * Minimal connection overhead.
-  * Easy scaling with Neon’s serverless architecture.
+  * Easy scaling with TiDB’s serverless architecture.
   * Simple and consistent database management.
 
 #### Handling Domains Dynamically
@@ -287,7 +286,7 @@ Managing millions of databases is no small feat. To handle this at scale, we can
 With millions of domains, we can't maintain 1 million NGINX configs or ingress rules. So we created a **Domain Resolver Service**:
 
   * Accepts a domain (e.g., `foo.com`).
-  * Returns the site’s root directory (e.g., `/mnt/cephfs/sites/foo.com/public_html`).
+  * Returns the site’s root directory (e.g., `/mnt/cephfs/sites/foo.com`).
   * Used by NGINX and PHP-FPM to serve the right content and data dynamically.
 
 **How it works:**
@@ -303,7 +302,7 @@ In a nutshell:
 
 1.  Create a folder on shared storage.
 2.  Symlink the desired core version.
-3.  Create a DB in Neon.
+3.  Create a DB.
 4.  Generate a fresh `wp-config.php`.
 5.  Register in the Domain Resolver.
 6.  DNS points to your global load balancer.
@@ -365,7 +364,7 @@ Want to build this?
 
   * Start small: prototype with a simple NFS on a dev cluster.
   * Test symlinked core updates.
-  * Experiment with Neon and PgBouncer for multi-tenancy, or use a PostgreSQL database and create multiple databases for each tenant.
+  * Experiment with TiDB and ProxySQL for multi-tenancy, or use a MySQL database and create multiple databases for each tenant.
   * Design a robust Domain Resolver—keep it simple at first.
 
 Got ideas or want to share how *you’d* tweak this? **Drop a comment—I’d love to hear your take\! 🚀**
@@ -379,8 +378,6 @@ Got ideas or want to share how *you’d* tweak this? **Drop a comment—I’d lo
   * [NFS & ZFS Basics](https://openzfs.org/) — robust file storage alternative for smaller clusters.
   * [PHP-FPM Configuration](https://www.php.net/manual/en/install.fpm.configuration.php) — how PHP-FPM works and how to tune it.
   * [OpenResty Lua for NGINX](https://openresty.org/en/) — dynamic routing logic with Lua inside NGINX.
-  * [Neon: Serverless Postgres](https://neon.com/) — cloud-native multi-tenant Postgres with branching.
-  * [PgBouncer Connection Pooler](https://www.pgbouncer.org/) — lightweight Postgres connection pooling.
   * [WordPress Kubernetes Guide (DigitalOcean)](https://www.digitalocean.com/community/tutorials/tag/wordpress) — examples and best practices.
   * [Helm Charts for WordPress](https://artifacthub.io/packages/helm/bitnami/wordpress) — deploy WordPress on Kubernetes using Helm.
 
